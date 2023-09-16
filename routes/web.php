@@ -23,3 +23,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 // Route to access the user list page
 Route::get('/users', 'UserController@index')->name('users.index');
+
+// Route to access show user page
+Route::get('/users/{id}', 'UserController@show')->name('users.show');
