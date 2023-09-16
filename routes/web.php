@@ -29,3 +29,6 @@ Route::get('/users/{id}', 'UserController@show')->name('users.show');
 
 // Route to create users
 Route::get('/users/create', 'UserController@create')->name('users.create');
+
+// Route to store the newly created users
+Route::post('/users', 'UserController@store')->name('users.store');

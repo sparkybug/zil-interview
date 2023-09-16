@@ -25,4 +25,22 @@ class UserController extends Controller
     {
         return view('users.create');
     }
+
+    public function store(Request $request)
+    {
+        // Validate the form input
+        $validatedData = $request->validate([
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            // Add more validation rules as needed
+        ]);
+
+        // Create a new user
+        $user = User::create($validatedData);
+
+        // Redirect to the user's profile page or another appropriate page
+        return redirect()->route('users.show', $user->id);
+    }
+
 }
