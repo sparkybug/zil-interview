@@ -39,9 +39,17 @@ class UserController extends Controller
             'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|max:255',
-            photo
-            // Add more validation rules as needed
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
+
+        // to handle photo upload if a file was provided
+        if($request->hasFile('photo')) {
+            // storing uploaded file in public/user-photos directory
+            $path = $request->file('photo')->store('user-photos', 'public');
+
+            // update the photo field in the user model with the file path
+            $validatedDate['photo'] = $path;
+        }
 
         // Create a new user
         $user = User::create($validatedData);
