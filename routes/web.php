@@ -23,13 +23,13 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Route to access the user list page
-Route::get('/users', [UserController::class, 'index'])->name('users.index');
+Route::get('/users/index', [UserController::class, 'index'])->name('users.index');
 
 // Route to access show user page
 Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
 
 // Route to create users
-Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+Route::get('/users/create', [UserController::class, 'create'])->middleware('auth')->name('users.create');
 
 // Route to store the newly created users
 Route::post('/users', [UserController::class, 'store'])->name('users.store');

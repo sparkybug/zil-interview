@@ -5,24 +5,25 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         // Retrieving users from DB
         $users = User::all();
         return view('users.index', compact('users'));
     }
 
-    public function show($id)
+    public function show($id): View
     {
         // Retrieve a user by their ID
         $user = User::findOrFail($id);
         return view('users.show', compact('user'));
     }
 
-    public function create()
+    public function create(): View
     {
         return view('users.create', compact('user'));
     }
