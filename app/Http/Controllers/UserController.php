@@ -24,7 +24,7 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('users.create');
+        return view('users.create', compact('user'));
     }
 
     public function store(Request $request)
@@ -48,13 +48,13 @@ class UserController extends Controller
             $path = $request->file('photo')->store('user-photos', 'public');
 
             // update the photo field in the user model with the file path
-            $validatedDate['photo'] = $path;
+            $validatedData['photo'] = $path;
         }
 
         // Create a new user
         $user = User::create($validatedData);
 
-        // Redirect to the user's profile page or another appropriate page
+        // Redirect to the user's profile page
         return redirect()->route('users.show', $user->id);
     }
 

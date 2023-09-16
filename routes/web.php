@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,13 +23,13 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Route to access the user list page
-Route::get('/users', 'UserController@index')->name('users.index');
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
 // Route to access show user page
-Route::get('/users/{id}', 'UserController@show')->name('users.show');
+Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
 
 // Route to create users
-Route::get('/users/create', 'UserController@create')->name('users.create');
+Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
 
 // Route to store the newly created users
-Route::post('/users', 'UserController@store')->name('users.store');
+Route::post('/users', [UserController::class, 'store'])->name('users.store');
