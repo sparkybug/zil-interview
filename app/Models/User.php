@@ -42,4 +42,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    protected $rules = [
+        'prefixname' => [
+            'nullable',
+            'string',
+            'in:Mr,Mrs,Ms'
+        ],
+    ];
 }
