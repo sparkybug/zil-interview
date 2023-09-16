@@ -12,20 +12,24 @@ class UserController extends Controller
     public function index(): View
     {
         // Retrieving users from DB
-        $users = User::all();
-        return view('users.index', compact('users'));
+        return view('users.index', [
+            'users' => User::all()
+        ]);
     }
 
     public function show($id): View
     {
         // Retrieve a user by their ID
-        $user = User::findOrFail($id);
-        return view('users.show', compact('user'));
+        return view('users.show', [
+            'user' => User::findOrFail($id)
+        ]);
     }
 
     public function create(): View
     {
-        return view('users.create');
+        return view('users.create', [
+            'user' => User::create()
+        ]);
     }
 
     public function store(Request $request)
