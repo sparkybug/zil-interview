@@ -30,6 +30,7 @@ class UserController extends Controller
     {
         // Validate the form input
         $validatedData = $request->validate([
+            'prefixname' => ['nullable', 'string', 'in:Mr,Mrs,Ms'],
             'firstname' => 'required|string|max:255',
             'middlename' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
