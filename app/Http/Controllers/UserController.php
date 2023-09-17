@@ -13,9 +13,8 @@ class UserController extends Controller
     public function index(): View
     {
         // Retrieving users from DB
-        return view('users.index', [
-            'users' => User::all()
-        ]);
+        $users = User::all();
+        return view('users.index', compact('users'));
     }
 
     public function show($id): View
@@ -62,9 +61,11 @@ class UserController extends Controller
         return redirect()->route('users.show', $user->id);
     }
 
-    public function edit(User $user)
+    public function edit(User $user): View
     {
-        return view('users.edit', compact('users'));
+        // Retrieve a single user instance
+        $users = User::findOrFail($user->id);
+        return view('users.edit', compact('user'));
     }
 
     public function update(Request $request, User $user)
