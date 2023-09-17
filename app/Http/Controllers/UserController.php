@@ -87,7 +87,11 @@ class UserController extends Controller
 
         // Handle photo upload (if provided)
         if ($request->hasFile('photo')) {
-            // Handle photo upload logic similar to the 'store' method
+            // storing uploaded file in public/user-photos directory
+            $path = $request->file('photo')->store('user-photos', 'public');
+
+            // update the photo field in the user model with the file path
+            $validatedData['photo'] = $path;
         }
 
         // Redirect to the user's profile page or another appropriate page
