@@ -43,7 +43,7 @@ class UserController extends Controller
             'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|max:255',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // to handle photo upload if a file was provided
@@ -62,4 +62,36 @@ class UserController extends Controller
         return redirect()->route('users.show', $user->id);
     }
 
+    public function edit(User $user)
+    {
+        return view('users.edit', compact('users'));
+    }
+
+    public function update(Request $request, User $user)
+    {
+        // Validation rules for updating user data
+        $validatedData = $request->validate([
+            'prefixname' => 'required|string|in:Mr,Mrs,Ms',
+            'firstname' => 'required|string|max:255',
+            'middlename' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'suffixname' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|max:255',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Update user data
+        $user->update($validatedData);
+
+        // Handle photo upload (if provided)
+        if ($request->hasFile('photo')) {
+            // Handle photo upload logic similar to the 'store' method
+        }
+
+        // Redirect to the user's profile page or another appropriate page
+        return redirect()->route('users.show', $user->id);
+
+    }
 }
