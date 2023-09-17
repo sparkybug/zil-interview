@@ -115,4 +115,19 @@ class UserController extends Controller
 
         return view('users.trashed', compact('trashedUsers'));
     }
+
+    public function restore(User $user)
+    {
+        $user->restore();
+
+        return redirect()->route('users.trashed');
+    }
+
+    public function deletePermanently(User $user)
+    {
+        $user->forceDelete();
+
+        return redirect()->route('users.trashed');
+    }
+
 }

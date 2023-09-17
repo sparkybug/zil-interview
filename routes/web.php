@@ -31,4 +31,10 @@ Auth::routes();
 
 Route::resource('users', UserController::class);
 
-Route::get('/users/trashed', [UserController::class, 'trashed'])->name('users.trashed');
+// Route::get('/users/trashed', [UserController::class, 'trashed'])->name('users.trashed');
+
+Route::controller(UserController::class)->group(function(){
+    Route::get('/users/trashed', 'trashed')->name('users.trashed');
+    Route::get('/users/restore/{user}', 'restore')->name('users.restore');
+    Route::delete('/users/delete-permanently/{user}', 'deletePermanently')->name('users.delete-permanently');
+});
