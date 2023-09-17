@@ -20,7 +20,20 @@
                 <td>{{ $user->firstname }} {{ $user->lastname }}</td>
                 <td>{{ $user->email }}</td>
                 <td>
-                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">Edit</a>
+                    <form action="{{ route('users.destroy',$user->id) }}" method="POST">
+   
+                        <a class="btn btn-info" href="{{ route('users.show',$user->id) }}">Show</a>
+                        
+                        @csrf
+                        @method('UPDATE')
+                        <a class="btn btn-primary" href="{{ route('users.edit',$user->id) }}">Edit</a>
+       
+                        @csrf
+                        @method('DELETE')
+          
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                    
                 </td>
             </tr>
             @endforeach

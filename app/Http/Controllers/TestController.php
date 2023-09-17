@@ -81,9 +81,36 @@ class TestController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $user)
     {
-        //
+        // Validation rules for updating user data
+        $request->validate([
+            'prefixname' => ['nullable', 'string', 'in:Mr,Mrs,Ms'],
+            'firstname' => 'required|string|max:255',
+            'middlename' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'suffixname' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|max:255',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Handle photo upload (if provided)
+        // if ($request->hasFile('photo')) {
+        //     // storing uploaded file in public/user-photos directory
+        //     $path = $request->file('photo')->store('user-photos', 'public');
+
+        //     // update the photo field in the user model with the file path
+        //     $validatedData['photo'] = $path;
+        // }
+
+        // Update user data
+        // $user = User::findOrFail($user->id);
+        $user->update($request->all());
+
+        // Redirect to the user's profile page or another appropriate page
+        return redirect()->route('users.show')->with('success', 'profile updated successfully');
     }
 
     /**

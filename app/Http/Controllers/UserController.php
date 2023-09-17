@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 class UserController extends Controller
@@ -17,12 +19,10 @@ class UserController extends Controller
         return view('users.index', compact('users'));
     }
 
-    public function show($id): View
+    public function show(User $user): View
     {
         // Retrieve a user by their ID
-        return view('users.show', [
-            'user' => User::findOrFail($id)
-        ]);
+        return view('users.show', compact('user'));
     }
 
     public function create(): View
@@ -64,15 +64,15 @@ class UserController extends Controller
     public function edit(User $user): View
     {
         // Retrieve a single user instance
-        $users = User::findOrFail($user->id);
+        // $users = User::findOrFail($user->id);
         return view('users.edit', compact('user'));
     }
 
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user): RedirectResponse
     {
         // Validation rules for updating user data
-        $validatedData = $request->validate([
-            'prefixname' => 'required|string|in:Mr,Mrs,Ms',
+        $request->validate([
+            'prefixname' => ['nullable', 'string', 'in:Mr,Mrs,Ms'],
             'firstname' => 'required|string|max:255',
             'middlename' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
@@ -83,20 +83,28 @@ class UserController extends Controller
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Update user data
-        $user->update($validatedData);
-
         // Handle photo upload (if provided)
-        if ($request->hasFile('photo')) {
-            // storing uploaded file in public/user-photos directory
-            $path = $request->file('photo')->store('user-photos', 'public');
+        // if ($request->hasFile('photo')) {
+        //     // storing uploaded file in public/user-photos directory
+        //     $path = $request->file('photo')->store('user-photos', 'public');
 
-            // update the photo field in the user model with the file path
-            $validatedData['photo'] = $path;
-        }
+        //     // update the photo field in the user model with the file path
+        //     $validatedData['photo'] = $path;
+        // }
+
+        // Update user data
+        // $user = User::findOrFail($user->id);
+        $user->update($request->all());
 
         // Redirect to the user's profile page or another appropriate page
-        return redirect()->route('users.show', $user->id);
+        return response()->route('users.index')->with('success', 'profile updated successfully');
 
+    }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+
+        return redirect()->route('users.index');
     }
 }
