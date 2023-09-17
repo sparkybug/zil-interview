@@ -26,7 +26,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function create_user(): View
+    public function create(): View
     {
         return view('users.create');
     }

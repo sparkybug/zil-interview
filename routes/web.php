@@ -27,20 +27,6 @@ Auth::routes();
 
 // Route::view('users/create', 'users.create');
 
-Route::resource('users', TestController::class);
+// Route::resource('users', TestController::class);
 
-// Route::controller(UserController::class)->group(function(){
-    // Route::get('/users','index')->name('users.index')->middleware('auth');
-
-    // // Route::get('/users/create','create_user')->middleware('auth')->name('users.create');
-
-    // Route::post('/users/create','store')->middleware('auth')->name('users.store');
-
-    // Route::get('/users/{id}/edit','edit')->middleware('auth');
-
-    // Route::post('/users/{id}/edit','update')->middleware('auth');
-
-    // Route::get('/users/{id}/delete','destroy')->middleware('auth');
-
-    // Route::get('/users/{id}','show')->middleware('auth')->name('users.show');
-// });
+Route::resource('users', UserController::class);

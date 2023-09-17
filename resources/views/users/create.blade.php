@@ -11,7 +11,7 @@
         </div>
         <div class="form-group">
             <label for="firstname">First Name</label>
-            <input type="text" class="form-control" id="firstname" Firstfirstname" Firsted>
+            <input type="text" class="form-control" id="firstname" name="firstname" required>
         </div>
         <div class="form-group">
             <label for="middlename">Middle Name</label>
