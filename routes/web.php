@@ -30,3 +30,5 @@ Auth::routes();
 // Route::resource('users', TestController::class);
 
 Route::resource('users', UserController::class);
+
+Route::get('/users/trashed', [UserController::class, 'trashed'])->name('users.trashed');
