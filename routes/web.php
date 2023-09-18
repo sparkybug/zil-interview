@@ -28,18 +28,18 @@ Auth::routes();
 // Route::view('users/trashed', 'users.trashed');
 
 // Route::resource('users', TestController::class);
-use App\Models\User;
- 
-Route::get('/users/{user}', function (User $user) {
-    return $user->email;
-})->withTrashed();
 
-Route::resource('users', UserController::class);
+Route::resource('users', UserController::class)->except([
+    'destroy'
+]);
 
+// Route::view('users/create', 'users.trashed');
+
+// Route::resource('users', 'UserController')->middleware('auth')->parameters([
+//     'users' => 'user' // Use 'user' as the parameter name instead of 'id'
+// ])->except([
+//     'destroy' // Exclude the 'destroy' method from the resource route
+// ]);
+
+// Route to view soft-deleted users
 Route::get('users/trashed', 'UserController@trashed')->name('users.trashed');
-
-Route::controller(UserController::class)->group(function(){
-    // Route::get('users/trashed', 'trashed')->name('users.trashed');
-    Route::get('/users/restore/{user}', 'restore')->name('users.restore');
-    Route::delete('/users/delete-permanently/{user}', 'deletePermanently')->name('users.delete-permanently');
-});

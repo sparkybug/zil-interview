@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesResources, SoftDeletes;
 
 class UserController extends Controller
 {
@@ -108,26 +109,38 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
 
-    public function trashed(): View
-    {
-        // Retrieve all soft deleted users
-        $users = User::onlyTrashed()->get();
+    // public function trashed(): View
+    // {
+    //     // Retrieve all soft deleted users
+    //     $users = User::onlyTrashed()->get();
 
-        return view('users.index', compact('users'));
+    //     return view('users.index', compact('users'));
+    // }
+
+    public function restore($id)
+    {
+        $user = User::withTrashed()->find($id);
+        if ($user) {
+            $user->restore(); // Restore the soft deleted user
+        }
+        return redirect()->route('users.index');
+        }
+
+    public function forceDelete($id)
+    {
+        $user = User::withTrashed()->find($id);
+        if ($user) {
+            $user->forceDelete(); // Permanently delete the user
+        }
+        return redirect()->route('users.index');
     }
 
-    public function restore(User $user)
+    public function trashed()
     {
-        $user->restore();
+        // Retrieve all soft-deleted users
+        $trashedUsers = User::onlyTrashed()->get();
 
-        return redirect()->route('users.trashed');
-    }
-
-    public function deletePermanently(User $user)
-    {
-        $user->forceDelete();
-
-        return redirect()->route('users.trashed');
+        return view('users.trashed', compact('trashedUsers'));
     }
 
 }

@@ -14,7 +14,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($users as $user)
+            @foreach ($trashedUsers as $user)
                 <tr>
                     <td>{{ $user->id }}</td>
                     <td>{{ $user->firstname }} {{ $user->lastname }}</td>
