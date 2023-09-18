@@ -25,13 +25,18 @@ Auth::routes();
 
 // Route::get('/users/create', [App\Http\Controllers\UserController::class, 'create_user'])->name('users.create');
 
-Route::view('users/create', 'users.create');
+// Route::view('users/trashed', 'users.trashed');
 
 // Route::resource('users', TestController::class);
+use App\Models\User;
+ 
+Route::get('/users/{user}', function (User $user) {
+    return $user->email;
+})->withTrashed();
 
 Route::resource('users', UserController::class);
 
-// Route::get('/users/trashed', [UserController::class, 'trashed'])->name('users.trashed');
+Route::get('users/trashed', 'UserController@trashed')->name('users.trashed');
 
 Route::controller(UserController::class)->group(function(){
     // Route::get('users/trashed', 'trashed')->name('users.trashed');
