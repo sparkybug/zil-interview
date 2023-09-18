@@ -120,4 +120,12 @@ class TestController extends Controller
     {
         //
     }
+
+    public function trashed()
+    {
+        // Retrieve all soft deleted users
+        $users = User::onlyTrashed()->get();
+
+        return view('users.trashed', compact('users'));
+    }
 }

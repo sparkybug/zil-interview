@@ -108,12 +108,12 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
 
-    public function trashed()
+    public function trashed(): View
     {
         // Retrieve all soft deleted users
-        $trashedUsers = User::onlyTrashed()->get();
+        $users = User::onlyTrashed()->get();
 
-        return view('users.trashed', compact('trashedUsers'));
+        return view('users.index', compact('users'));
     }
 
     public function restore(User $user)
